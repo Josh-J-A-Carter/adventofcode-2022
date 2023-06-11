@@ -10,3 +10,6 @@ pub mod a_04;
 pub mod a_04_p2;
 
 pub mod a_05;
+pub mod a_05_p2;
+
+pub mod a_06;
