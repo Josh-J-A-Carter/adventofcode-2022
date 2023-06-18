@@ -13,3 +13,5 @@ pub mod a_05;
 pub mod a_05_p2;
 
 pub mod a_06;
+
+pub mod a_07;
