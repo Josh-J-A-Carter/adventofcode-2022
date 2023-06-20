@@ -196,37 +196,9 @@ fn traverse_min(root: Rc<RefCell<Folder>>, min_size: u32) -> u32 {
     return curr_min
 }
 
-
-
-
 struct Folder {
     name: String, 
     parent: Option<Rc<RefCell<Folder>>>,
     subfolders: Vec<Rc<RefCell<Folder>>>,
     size: u32
-}
-
-impl Folder {
-    fn to_string(&self) -> String {
-        let mut output = String::new();
-        output.push_str("{ name: ");
-        output.push_str(self.name.as_str());
-
-        output.push_str(", size: ");
-        output.push_str(self.size.to_string().as_str());
-
-        output.push_str(", parent: ");
-        match self.parent.as_ref() { 
-            Some(val) => { output.push_str(val.borrow().name.as_str()) }
-            None => { output.push_str("None") }
-        }
-
-        output.push_str(", subdirectories: [");
-        for dir in self.subfolders.iter() { output.push_str((dir.borrow().name.clone() + " ").as_str()) }
-        output.push_str("]");
-
-        output.push_str(" }");
-
-        output
-    }
 }
