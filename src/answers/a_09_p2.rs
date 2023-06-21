@@ -1,18 +1,16 @@
 use std::fs;
 use std::collections::HashSet;
 
-
 pub fn func() {
 
     let contents = fs::read_to_string("src/input/09.txt").expect("Could not read the file");
 
     // The points to be tracking as they move through space
-    let mut head = Point{x: 0, y: 0};
-    let mut tail = Point{x: 0, y: 0};
+    let mut knots = vec![Point{x: 0, y: 0}; 10];
 
     // Store the positions we have already visited
     let mut visited_positions: HashSet<Point> = HashSet::new();
-    visited_positions.insert(tail.clone());
+    visited_positions.insert(knots.last().unwrap().clone());
 
     // Iterate through all the commands, updating positions as necessary
     for line in contents.lines() {
@@ -22,6 +20,7 @@ pub fn func() {
         let num_iterations = tokens[1].parse::<i32>().expect("Unable to parse string as an integer");
         for _ in 0 .. num_iterations {
             // Update the head's position
+            let head = knots.first_mut().unwrap();
             match tokens[0] {
                 "U" => { head.y -= 1 }
                 "D" => { head.y += 1 }
@@ -30,17 +29,18 @@ pub fn func() {
                 _ => { panic!("Unknown command") }
             }
 
-            // Update the tail's position
-            tail = next_tail_pos(&head, &tail);
+            // Update all the other knots, using the previous knot as the head
+            for i in 1 .. knots.len() { knots[i] = next_tail_pos(&knots[i-1], &knots[i]) }
 
             // Add this position to the list of visited positions
+            let tail = knots.last().unwrap();
             visited_positions.insert(tail.clone());
-
         }
     }
 
     println!("The tail visited {} positions", visited_positions.len());
 }
+
 
 /**
  * Find the next position of the tail, in reference to the specified head
