@@ -7,3 +7,4 @@ edition = "2021"
 
 [dependencies]
 unicode-segmentation = "1.10.1"
+#ramp = "0.7.0"
